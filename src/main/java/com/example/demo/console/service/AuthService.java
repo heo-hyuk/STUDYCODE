@@ -1,6 +1,6 @@
-package 콘솔게시판.service;
+package com.example.demo.console.service;
 
-import 콘솔게시판.model.User;
+import com.example.demo.console.model.User;
 
 import java.util.ArrayList;
 import java.util.List;

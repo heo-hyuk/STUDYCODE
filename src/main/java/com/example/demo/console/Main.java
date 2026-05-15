@@ -1,6 +1,6 @@
-package 콘솔게시판;
+package com.example.demo.console;
 
-import 콘솔게시판.controller.AppController;
+import com.example.demo.console.controller.AppController;
 
 
 public class Main {

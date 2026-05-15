@@ -1,8 +1,8 @@
-package 콘솔게시판.controller;
+package com.example.demo.console.controller;
 
-import 콘솔게시판.model.Post;
-import 콘솔게시판.service.AuthService;
-import 콘솔게시판.service.PostService;
+import com.example.demo.console.model.Post;
+import com.example.demo.console.service.AuthService;
+import com.example.demo.console.service.PostService;
 
 import java.util.List;
 import java.util.Scanner;

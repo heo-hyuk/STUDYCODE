@@ -1,4 +1,4 @@
-package 콘솔게시판.model;
+package com.example.demo.console.model;
 
 public class Post {
     private int id;
