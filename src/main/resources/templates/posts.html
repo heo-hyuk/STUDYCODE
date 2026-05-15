@@ -1,0 +1,106 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Posts</title>
+</head>
+<body class="bg-slate-50">
+<div class="max-w-4xl mx-auto p-4 md:p-8">
+
+    <!-- 상단 바 -->
+    <div class="rounded-2xl bg-white shadow p-4 md:p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div>
+            <h1 class="text-xl md:text-2xl font-bold">게시판 (메모리 List)</h1>
+            <p class="text-slate-600 text-sm">Controller → Service(List) → View(Thymeleaf)</p>
+        </div>
+
+        <div class="flex items-center gap-2">
+            <div th:if="${loggedIn}" class="text-sm text-slate-700">
+                <span class="font-semibold" th:text="${loginName}"></span> 님
+            </div>
+
+            <a th:if="${!loggedIn}" href="/login"
+               class="rounded-xl bg-violet-500 px-3 py-2 text-white hover:bg-violet-400 text-sm">
+                로그인
+            </a>
+
+            <form th:if="${loggedIn}" action="/logout" method="post">
+                <button type="submit"
+                        class="rounded-xl bg-slate-900 px-3 py-2 text-white hover:bg-slate-800 text-sm">
+                    로그아웃
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 메시지 -->
+    <div th:if="${msg != null}"
+         class="mt-4 rounded-xl bg-amber-50 border border-amber-200 p-3 text-amber-900 text-sm"
+         th:text="${msg}">
+    </div>
+
+    <!-- 글쓰기 -->
+    <div th:if="${loggedIn}" class="mt-6 rounded-2xl bg-white shadow p-4 md:p-6">
+        <h2 class="font-semibold">글 작성</h2>
+        <form action="/posts" method="post" class="mt-3 flex flex-col sm:flex-row gap-3">
+            <input name="title" placeholder="제목을 입력하세요"
+                   class="flex-1 rounded-xl border border-slate-200 px-3 py-2
+                      focus:outline-none focus:ring-2 focus:ring-violet-300"/>
+            <button type="submit"
+                    class="rounded-xl bg-violet-500 px-4 py-2 text-white hover:bg-violet-400">
+                등록
+            </button>
+        </form>
+        <p class="mt-2 text-xs text-slate-500">
+            ※ DB가 아니라 List라서 서버를 재시작하면 글이 사라집니다.
+        </p>
+    </div>
+
+    <!-- 목록 -->
+    <div class="mt-6 rounded-2xl bg-white shadow overflow-hidden">
+        <div class="p-4 md:p-6 border-b border-slate-100">
+            <h2 class="font-semibold">글 목록</h2>
+        </div>
+
+        <div class="divide-y divide-slate-100">
+            <div th:if="${#lists.isEmpty(posts)}" class="p-6 text-slate-500">
+                아직 글이 없습니다.
+            </div>
+
+            <div th:each="p : ${posts}"
+                 class="p-4 md:p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+
+                <div>
+                    <div class="text-lg font-semibold" th:text="${p.title}">제목</div>
+                    <div class="text-sm text-slate-600">
+                        작성자: <span th:text="${p.author}"></span>
+                        · 글번호: <span th:text="${p.id}"></span>
+                    </div>
+                </div>
+
+                <!-- 작성자만 삭제 가능 -->
+                <form th:if="${loggedIn and loginName == p.author}"
+                      th:action="@{|/posts/${p.id}/delete|}" method="post">
+                    <button type="submit"
+                            class="rounded-xl bg-rose-500 px-4 py-2 text-white hover:bg-rose-400">
+                        삭제
+                    </button>
+                </form>
+
+                <div th:if="${!loggedIn or loginName != p.author}"
+                     class="text-xs text-slate-400">
+                    (작성자만 삭제 가능)
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-6 text-center text-xs text-slate-400">
+        SECTION14: 로그인(boolean) + 게시판(List)로 MVC 흐름 익히기
+    </div>
+
+</div>
+</body>
+</html>
